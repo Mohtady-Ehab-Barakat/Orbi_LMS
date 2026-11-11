@@ -1,0 +1,9 @@
+{#- Sign in with a link: sent by Frappe when a student chooses "Email me a link" (login_with_email_link). -#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{{ ot.ours() }}{{ ot.preheader("Your sign-in link for OrbiTutor. It works for " ~ minutes ~ " minutes.") }}
+{{ ot.eyebrow("Sign in") }}
+{{ ot.heading("Here's your sign-in link") }}
+{{ ot.p("Tap the button to sign in to OrbiTutor. No password needed.") }}
+{{ ot.button(link, "Sign me in") }}
+{{ ot.small("The link works once, for " ~ minutes ~ " minutes. If you didn't ask for it, ignore this email: nobody can sign in without it.") }}
+{{ ot.fallback(link) }}

@@ -1,0 +1,29 @@
+{#- Welcome. Two ways in: staff made the account after enrolling the student (Frappe's welcome email), or the student
+    signed up themselves on /signup (OrbiTutor's sign_up, which passes signed_up). The link sets the password. -#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set self_made = signed_up is defined and signed_up -%}
+{%- set minutes = (expiry_minutes ~ " minutes") if (expiry_minutes is defined and expiry_minutes) else "a short while" -%}
+{%- if self_made -%}
+{{ ot.ours() }}{{ ot.preheader("Choose a password to finish making your OrbiTutor account.") }}
+{{ ot.eyebrow("Welcome") }}
+{{ ot.heading("Welcome to OrbiTutor, " ~ ot.first(first_name)) }}
+{{ ot.p("Choose a password and your account is ready. Then look around every course, see what you'd build, and ask to join one. Your instructor adds you to your class.") }}
+{{ ot.button(link, "Set my password") }}
+{{ ot.facts([("You'll sign in with", user | e)]) }}
+{{ ot.small("The link works once, for " ~ minutes ~ ". If it's stopped working, use Forgot password on the sign-in page.") }}
+{{ ot.small("Didn't sign up? You can ignore this email. Nothing happens unless the link is used.") }}
+{{ ot.fallback(link) }}
+{{ ot.rule() }}
+{{ ot.help("Questions before you join?") }}
+{%- else -%}
+{{ ot.ours() }}{{ ot.preheader("Your OrbiTutor account is ready. Set it up in a minute and your lessons are waiting.") }}
+{{ ot.eyebrow("Welcome") }}
+{{ ot.heading("Welcome to OrbiTutor, " ~ ot.first(first_name)) }}
+{{ ot.p("Your place is confirmed and your account is ready. Set it up with a password of your own, or with your OrbitCore account, and your lessons are waiting.") }}
+{{ ot.button(link, "Set up my account") }}
+{{ ot.facts([("You'll sign in with", user | e)]) }}
+{{ ot.small("The link works once, for a short while. If it's stopped working, message us and we'll send you a new one.") }}
+{{ ot.fallback(link) }}
+{{ ot.rule() }}
+{{ ot.help("Not sure what to do next?") }}
+{%- endif -%}

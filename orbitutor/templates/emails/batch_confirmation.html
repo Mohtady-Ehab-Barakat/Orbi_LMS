@@ -1,0 +1,12 @@
+{#- Enrolment: sent by Frappe Learning when a student is added to a batch (LMS Batch Enrollment). -#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set where = {"Online": "Online, from the OrbiTutor app", "Offline": "In person, at our Cyberjaya centre"}.get(medium, medium) -%}
+{{ ot.ours() }}{{ ot.preheader("Your place in the " ~ title ~ " batch is confirmed. Here's when it starts.") }}
+{{ ot.eyebrow("You're enrolled") }}
+{{ ot.heading("You're in: " ~ (title | e)) }}
+{{ ot.p("Hi " ~ ot.first(student_name) ~ ", your place in the " ~ (title | e) ~ " batch is confirmed. Here's when it starts.") }}
+{{ ot.facts([("First class", ot.date(start_date)), ("Starts at", ot.time(start_time)), ("Where", where | e)]) }}
+{{ ot.p("Your class times, lessons and announcements are all on your batch page.") }}
+{{ ot.button(ot.routes.batch ~ name, "See my batch") }}
+{{ ot.rule() }}
+{{ ot.help() }}

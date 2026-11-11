@@ -1,0 +1,6 @@
+{#-
+  The title line Frappe puts at the top of an email (frappe.sendmail(header=[title, colour])).
+  OrbiTutor's own emails carry their own heading, so the layout only shows this on Frappe's others.
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{{ ot.heading(header_title | e) }}

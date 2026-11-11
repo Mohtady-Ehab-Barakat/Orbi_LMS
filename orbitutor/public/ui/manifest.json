@@ -1,0 +1,16 @@
+{
+ "app.css": "492e725804",
+ "app.js": "06f6ff7ac9",
+ "bundle.css": "909bc5381b",
+ "bundle.js": "9f238c7d8f",
+ "chunks/chunk-6DHFEWGX.js": "11247d28c5",
+ "chunks/lessonExtras-CQN4IF2C.js": "782854666d",
+ "fonts/AtkinsonHyperlegible-Bold.woff2": "9b87765ed7",
+ "fonts/AtkinsonHyperlegible-Regular.woff2": "8fd538cd4d",
+ "fonts/Fredoka-SemiBold.woff2": "24370a6c96",
+ "icon-192.png": "4a5da31c7c",
+ "icon-512.png": "e0610b33e6",
+ "react-dom.production.min.js": "35f4f974f4",
+ "react.production.min.js": "d949f1c368",
+ "tokens.css": "36fc6e346e"
+}

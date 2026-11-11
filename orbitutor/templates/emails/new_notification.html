@@ -1,0 +1,20 @@
+{#-
+  A notification, by email: Frappe sends this for in-app notifications that are emailed (mentions,
+  shares, assignments to staff) when the person's notification settings allow it. Frappe never emails
+  "Alert" notifications, which is what Frappe Learning uses for a marked assignment: assignment_marked.html
+  covers that. Frappe gives it: body_content (the notification's line, with bold), description
+  (the message, in Markdown) and doc_link.
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set line = body_content | striptags -%}
+{{ ot.ours() }}{{ ot.preheader(line) }}
+{{ ot.eyebrow("Notification") }}
+<h1 class="ot-h1 ot-strong" style="margin:0 0 16px;font-family:{{ ot.DISPLAY }};font-size:24px;line-height:31px;font-weight:600;color:{{ ot.INK }};">{{ body_content }}</h1>
+{%- if description %}
+{{ ot.quote(description | markdown, "What they said") }}
+{%- endif %}
+{%- if doc_link %}
+{{ ot.button(doc_link, "Open it in OrbiTutor") }}
+{%- endif %}
+{{ ot.rule() }}
+{{ ot.small("You get emails like this because notifications by email are on. Change which ones come in OrbiTutor, under Settings, then Notifications.") }}

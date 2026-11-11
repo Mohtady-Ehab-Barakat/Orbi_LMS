@@ -1,0 +1,34 @@
+{#-
+  The footer under every email. Frappe gives it: email_account_footer (the sending account's
+  signature), sender_address (System Settings > Email Footer Address), default_mail_footer
+  ("Sent via Frappe"; turn it off with System Settings > Disable Standard Email Footer).
+  Keep the two comments below: Frappe puts the unsubscribe link and the open check in their place.
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+<div class="email-footer-container">
+	{%- if email_account_footer %}
+	<div class="ot-muted" style="margin:0 0 14px;font-family:{{ ot.FONT }};font-size:14px;line-height:21px;color:{{ ot.INK_3 }};">{{ email_account_footer }}</div>
+	{%- endif %}
+	<p class="ot-muted" style="margin:0 0 6px;font-family:{{ ot.FONT }};font-size:13px;line-height:20px;color:{{ ot.INK_3 }};">
+		{{ ot.brand.name }} is run by {{ ot.brand.company }} ({{ ot.brand.registration }})
+	</p>
+	<p class="ot-muted" style="margin:0 0 6px;font-family:{{ ot.FONT }};font-size:13px;line-height:20px;color:{{ ot.INK_3 }};">
+		{%- if sender_address %}{{ sender_address | e | replace("\n", "<br>") }}{% else %}{{ ot.brand.address }}{% endif -%}
+	</p>
+	<p class="ot-muted" style="margin:0 0 6px;font-family:{{ ot.FONT }};font-size:13px;line-height:20px;color:{{ ot.INK_3 }};">
+		WhatsApp <a class="ot-link" href="{{ ot.brand.whatsapp_href }}" target="_blank" style="color:{{ ot.INK_3 }};">{{ ot.brand.whatsapp_label }}</a>
+		&nbsp;&middot;&nbsp; <a class="ot-link" href="mailto:{{ ot.brand.email }}" style="color:{{ ot.INK_3 }};">{{ ot.brand.email }}</a>
+	</p>
+
+	<!--unsubscribe link here-->
+
+	<div class="email-pixel">
+		<!--email_open_check-->
+	</div>
+
+	{%- if default_mail_footer %}
+	<div class="ot-muted" style="margin:8px 0 0;font-family:{{ ot.FONT }};font-size:12px;line-height:18px;color:{{ ot.INK_3 }};">
+		{%- for line in default_mail_footer %}<div>{{ line }}</div>{% endfor -%}
+	</div>
+	{%- endif %}
+</div>

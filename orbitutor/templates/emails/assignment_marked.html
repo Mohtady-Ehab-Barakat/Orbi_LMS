@@ -1,0 +1,23 @@
+{#-
+  Assignment marked: OrbiTutor's own email, sent by the custom app when an evaluator sets an
+  assignment to Pass or Fail (see the README for the hook). Frappe Learning only sends a generic
+  notification for this; this one gives the result and the feedback.
+  Give it: student_name, assignment_title, course_title, status ("Pass" or "Fail"), comments, link.
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set passed = status == "Pass" -%}
+{{ ot.ours() }}{{ ot.preheader(((assignment_title ~ ": passed. ") if passed else (assignment_title ~ " needs another go. ")) ~ "Your instructor's feedback is inside.") }}
+{{ ot.eyebrow("Assignment marked") }}
+{{ ot.heading((assignment_title | e) ~ " has been marked") }}
+<p style="margin:0 0 16px;">{{ ot.pill("Passed", "good") if passed else ot.pill("Needs another go", "again") }}</p>
+{%- if passed %}
+{{ ot.p("Well done, " ~ ot.first(student_name) ~ ". Your work for " ~ (course_title | e) ~ " passed.") }}
+{%- else %}
+{{ ot.p("Hi " ~ ot.first(student_name) ~ ", your work for " ~ (course_title | e) ~ " isn't there yet. Read the feedback, make the changes, and hand it in again.") }}
+{%- endif %}
+{%- if comments %}
+{{ ot.quote(comments | markdown, "Your instructor's feedback") }}
+{%- endif %}
+{{ ot.button(link, "See it in OrbiTutor" if passed else "Read the feedback and hand it in again") }}
+{{ ot.rule() }}
+{{ ot.help("Questions about the feedback?") }}

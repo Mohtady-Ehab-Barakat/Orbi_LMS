@@ -1,0 +1,13 @@
+{#- Certificate ready: sent by Frappe Learning when a certificate is issued (LMS Certificate). -#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set pdf = "/api/method/frappe.utils.print_format.download_pdf?doctype=LMS+Certificate&name=" ~ (name | urlencode) ~ "&format=" ~ (template | urlencode) ~ "&no_letterhead=1" -%}
+{{ ot.ours() }}{{ ot.preheader("You finished " ~ course_title ~ ". Your certificate is ready to download and share.") }}
+{{ ot.eyebrow("Certificate ready") }}
+{{ ot.heading("Your " ~ (course_title | e) ~ " certificate is ready") }}
+{{ ot.p("Congratulations, " ~ ot.first(member_name) ~ ". You finished " ~ (course_title | e) ~ ", and your certificate is waiting in OrbiTutor, ready to download as a PDF and share.") }}
+{{ ot.button(ot.routes.certificate ~ name, "See my certificate") }}
+{{ ot.facts([("Name on it", member_name | e), ("Certificate number", name | e)]) }}
+{{ ot.small("Anyone can check it's genuine with the certificate number. If your name is spelt wrong, message us and we'll fix it.") }}
+<p class="ot-muted" style="margin:0 0 12px;font-family:{{ ot.FONT }};font-size:14px;line-height:21px;color:{{ ot.INK_3 }};">Or {{ ot.textlink(pdf, "download the PDF") }} straight away (sign in first).</p>
+{{ ot.rule() }}
+{{ ot.help() }}

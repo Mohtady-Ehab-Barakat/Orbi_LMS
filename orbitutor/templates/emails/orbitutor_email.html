@@ -1,0 +1,132 @@
+{#-
+  OrbiTutor emails: the brand's details, the app's addresses, and the pieces every email is built from.
+  Each email imports this:  {% import "templates/emails/orbitutor_email.html" as ot with context %}
+  Styles are written inline, because many mail apps drop <style> blocks. Links can be relative
+  ("/batch/..."): Frappe turns them into full addresses when it sends.
+-#}
+
+{#- the brand -#}
+{% set brand = {
+  "name": "OrbiTutor",
+  "company": "OrbitCore Sdn. Bhd.",
+  "registration": "202501018386",
+  "address": "Level 15, DPulze, Lingkaran Cyber Point Timur, Cyber 12, 63000 Cyberjaya",
+  "whatsapp_href": "https://wa.me/60102345601",
+  "whatsapp_label": "+60 10-234 5601",
+  "email": "orbitutor@orbit-core.com",
+  "website": "https://orbit-core.com",
+  "logo": "/assets/orbitutor/email/orbitutor-mark.png",
+} %}
+
+{#- where things are in the OrbiTutor app. Singular (/course/, /batch/), because Frappe Learning
+    redirects /courses and /batches to its own app. -#}
+{% set routes = {
+  "home": "/",
+  "batch": "/batch/",
+  "course": "/course/",
+  "certificate": "/certificate/",
+  "certificates": "/certificates",
+} %}
+
+{#- type and colour -#}
+{% set FONT = "'Atkinson Hyperlegible', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" %}
+{% set DISPLAY = "Fredoka, 'Trebuchet MS', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" %}
+{% set INK = "#1d2547" %}
+{% set INK_2 = "#4a5378" %}
+{% set INK_3 = "#6b7499" %}
+{% set GOLD_TEXT = "#9a5b00" %}
+{% set LINE = "#e3e7f3" %}
+{% set P = "margin:0 0 16px;font-family:" ~ FONT ~ ";font-size:16px;line-height:25px;color:" ~ INK_2 ~ ";" %}
+
+{#- the little line a mail app shows next to the subject. It rides in a comment, so it never shows in
+    the body; standard.html reads it from there and puts it, hidden, at the very top. -#}
+{% macro preheader(text) -%}<!--ot-pre:{{ (text | e) | replace("--", "–") }}-->{%- endmacro %}
+
+{#- marks the email as one of ours, so the layout leaves out Frappe's header line -#}
+{% macro ours() -%}<!--ot-body-->{%- endmacro %}
+
+{% macro eyebrow(text) -%}
+<p class="ot-eyebrow" style="margin:0 0 8px;font-family:{{ FONT }};font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:{{ GOLD_TEXT }};">{{ text }}</p>
+{%- endmacro %}
+
+{% macro heading(text) -%}
+<h1 class="ot-h1 ot-strong" style="margin:0 0 16px;font-family:{{ DISPLAY }};font-size:28px;line-height:34px;font-weight:600;color:{{ INK }};">{{ text }}</h1>
+{%- endmacro %}
+
+{% macro p(text) -%}
+<p class="ot-text" style="{{ P }}">{{ text }}</p>
+{%- endmacro %}
+
+{#- a gold button that works in every mail app, Outlook included -#}
+{% macro button(href, label) -%}
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;border-collapse:separate;">
+  <tr>
+    <td class="ot-btn" align="center" bgcolor="#FFC93C" style="border-radius:999px;background:#FFC93C;">
+      <a href="{{ href }}" target="_blank" style="display:inline-block;padding:14px 28px;font-family:{{ FONT }};font-size:16px;line-height:20px;font-weight:700;color:#241205;text-decoration:none;border-radius:999px;">{{ label }}</a>
+    </td>
+  </tr>
+</table>
+{%- endmacro %}
+
+{#- a quieter link under the button -#}
+{% macro textlink(href, label) -%}
+<a class="ot-link" href="{{ href }}" target="_blank" style="font-family:{{ FONT }};font-weight:700;color:{{ GOLD_TEXT }};text-decoration:underline;">{{ label }}</a>
+{%- endmacro %}
+
+{#- the key facts in a soft box: [(label, value), ...] -#}
+{% macro facts(rows) -%}
+<table role="presentation" class="ot-fact" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f4f6fc" style="margin:4px 0 24px;border-radius:12px;background:#f4f6fc;border-collapse:separate;">
+  {%- for row in rows if row[1] %}
+  <tr>
+    <td style="padding:{{ '14px' if loop.first else '0' }} 18px {{ '14px' if loop.last else '10px' }};">
+      <p class="ot-muted" style="margin:0;font-family:{{ FONT }};font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:{{ INK_3 }};">{{ row[0] }}</p>
+      <p class="ot-strong" style="margin:2px 0 0;font-family:{{ FONT }};font-size:17px;line-height:24px;font-weight:700;color:{{ INK }};">{{ row[1] }}</p>
+    </td>
+  </tr>
+  {%- endfor %}
+</table>
+{%- endmacro %}
+
+{#- words from an instructor, set apart -#}
+{% macro quote(text, label=None) -%}
+<table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="margin:4px 0 24px;border-collapse:separate;">
+  <tr>
+    <td class="ot-quote" bgcolor="#fbf6e6" style="padding:14px 18px;border-left:4px solid #FFC93C;border-radius:0 12px 12px 0;background:#fbf6e6;">
+      {% if label %}<p class="ot-muted" style="margin:0 0 6px;font-family:{{ FONT }};font-size:12px;line-height:16px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:{{ INK_3 }};">{{ label }}</p>{% endif %}
+      <div class="ot-text" style="font-family:{{ FONT }};font-size:16px;line-height:25px;color:{{ INK }};">{{ text }}</div>
+    </td>
+  </tr>
+</table>
+{%- endmacro %}
+
+{#- a status: tone is "good" or "again" -#}
+{% macro pill(text, tone="good") -%}
+{%- set c = {"good": ("#e1f5ea", "#12663f"), "again": ("#fff1d1", "#7a4d00")}[tone or "good"] -%}
+<span style="display:inline-block;padding:4px 12px;border-radius:999px;background:{{ c[0] }};font-family:{{ FONT }};font-size:14px;line-height:20px;font-weight:700;color:{{ c[1] }};">{{ text }}</span>
+{%- endmacro %}
+
+{#- small print under the main part -#}
+{% macro small(text) -%}
+<p class="ot-muted" style="margin:0 0 12px;font-family:{{ FONT }};font-size:14px;line-height:21px;color:{{ INK_3 }};">{{ text }}</p>
+{%- endmacro %}
+
+{#- for when the button doesn't work: the address to copy -#}
+{% macro fallback(href) -%}
+<p class="ot-muted" style="margin:0 0 12px;font-family:{{ FONT }};font-size:13px;line-height:20px;color:{{ INK_3 }};">Button not working? Copy this address into your browser:<br><a class="ot-link" href="{{ href }}" style="color:{{ GOLD_TEXT }};word-break:break-all;">{{ href }}</a></p>
+{%- endmacro %}
+
+{% macro rule() -%}
+<table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td style="padding:8px 0 20px;"><div class="ot-rule" style="height:1px;line-height:1px;font-size:1px;background:{{ LINE }};">&nbsp;</div></td></tr></table>
+{%- endmacro %}
+
+{#- "Questions? WhatsApp us" -#}
+{% macro help(text=None) -%}
+<p class="ot-muted" style="margin:0;font-family:{{ FONT }};font-size:14px;line-height:21px;color:{{ INK_3 }};">{{ text or "Questions?" }} WhatsApp us at <a class="ot-link" href="{{ brand.whatsapp_href }}" target="_blank" style="color:{{ GOLD_TEXT }};font-weight:700;">{{ brand.whatsapp_label }}</a>, or reply to this email.</p>
+{%- endmacro %}
+
+{#- dates and times the way OrbiTutor writes them: "Saturday 5 December 2026", "10:00 am" -#}
+{% macro date(d) -%}{{ frappe.utils.format_date(d, "EEEE d MMMM y") }}{%- endmacro %}
+{% macro time(t) -%}{{ (frappe.utils.format_time(t, "h:mm a") or "") | lower }}{%- endmacro %}
+
+{#- their first name, from whatever the email was given -#}
+{% macro first(name) -%}{{ ((name or "").strip().split(" ")[0] or "there") | e }}{%- endmacro %}

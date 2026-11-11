@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme }}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#030820">
+	<meta name="color-scheme" content="dark light">
+	<title>{{ title }}</title>
+	<link rel="icon" type="image/png" href="/assets/orbitutor/ui/icon-192.png">
+	<link rel="apple-touch-icon" href="/assets/orbitutor/ui/icon-192.png">
+	<link rel="modulepreload" href="/assets/orbitutor/ui/app.js?v={{ v.get('app.js', '') }}">
+	<link rel="preload" href="/assets/orbitutor/ui/fonts/AtkinsonHyperlegible-Regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/assets/orbitutor/ui/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="stylesheet" href="/assets/orbitutor/ui/tokens.css?v={{ v.get('tokens.css', '') }}">
+	<link rel="stylesheet" href="/assets/orbitutor/ui/bundle.css?v={{ v.get('bundle.css', '') }}">
+	<link rel="stylesheet" href="/assets/orbitutor/ui/app.css?v={{ v.get('app.css', '') }}">
+	<script>
+		// The theme, before anything is drawn: "system" follows the device.
+		(function () {
+			var d = document.documentElement, t = d.getAttribute("data-theme");
+			try { var saved = localStorage.getItem("orbitutor.theme"); if (saved) t = saved; } catch (e) {}
+			if (t === "system") t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "day" : "night";
+			d.setAttribute("data-theme", t === "day" ? "day" : "night");
+		})();
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+	<noscript><p style="padding:24px;font-family:sans-serif">OrbiTutor needs JavaScript. Turn it on in your browser, then reload this page.</p></noscript>
+	<script>window.orbitutorBoot = {{ boot_json }};</script>
+	<script src="/assets/orbitutor/ui/react.production.min.js?v={{ v.get('react.production.min.js', '') }}"></script>
+	<script src="/assets/orbitutor/ui/react-dom.production.min.js?v={{ v.get('react-dom.production.min.js', '') }}"></script>
+	<script src="/assets/orbitutor/ui/bundle.js?v={{ v.get('bundle.js', '') }}"></script>
+	<script type="module" src="/assets/orbitutor/ui/app.js?v={{ v.get('app.js', '') }}"></script>
+</body>
+</html>

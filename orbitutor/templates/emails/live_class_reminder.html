@@ -1,0 +1,13 @@
+{#-
+  Class today: sent by Frappe Learning on the morning of a live class (send_live_class_reminder).
+  Frappe Learning's own wording says "tomorrow", but it sends on the day, so this says "today".
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{{ ot.ours() }}{{ ot.preheader(title ~ " starts at " ~ ot.time(time) ~ " today. Join from your batch page.") }}
+{{ ot.eyebrow("Live class today") }}
+{{ ot.heading((title | e) ~ " is today") }}
+{{ ot.p("Hi " ~ ot.first(student_name) ~ ", your live class starts at " ~ ot.time(time) ~ ". Open your batch page a few minutes early: Join appears there when the class begins.") }}
+{{ ot.facts([("Today", ot.date(date)), ("Starts at", ot.time(time))]) }}
+{{ ot.button(ot.routes.batch ~ batch_name, "Open my batch") }}
+{{ ot.rule() }}
+{{ ot.help("Can't make it? Let us know.") }}

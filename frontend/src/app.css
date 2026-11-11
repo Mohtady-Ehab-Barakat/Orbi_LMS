@@ -1,0 +1,387 @@
+/* The app's own layout around the design system's components. Colours, sizes and fonts all come
+   from the tokens; nothing here restyles a component. */
+
+html,
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font-body);
+}
+
+#root {
+	min-height: 100vh;
+	min-height: 100dvh;
+}
+
+/* a page's own heading, where the screen has no hero */
+.app-head {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2);
+	margin: 0 0 var(--space-8);
+}
+.app-head__title {
+	margin: 0;
+	font-family: var(--font-display);
+	font-weight: 600;
+	font-size: 36px;
+	line-height: 44px;
+	color: var(--ink-strong);
+}
+.app-head__lead {
+	margin: 0;
+	max-width: 62ch;
+	font-size: 17px;
+	line-height: 26px;
+	color: var(--ink-2);
+}
+@media (max-width: 719px) {
+	.app-head {
+		margin-bottom: var(--space-6);
+	}
+	.app-head__title {
+		font-size: 28px;
+		line-height: 36px;
+	}
+}
+
+/* the panel beside a course's hero: progress, or the certificate */
+.app-panel {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-4);
+	padding: var(--space-5);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--line);
+	background: var(--surface-1);
+}
+.app-panel > .ot-progress {
+	align-self: stretch;
+}
+
+.app-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-3);
+}
+.app-row--end {
+	justify-content: flex-end;
+	margin-bottom: var(--space-3);
+}
+.app-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}
+.app-pad {
+	padding: var(--space-4);
+}
+
+.app-grid2,
+.app-grid3 {
+	display: grid;
+	gap: var(--space-5);
+	align-items: start;
+}
+.app-grid2 {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+.app-grid3 {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+}
+
+/* a course page: the hero, then its sections */
+.app-course {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-12);
+}
+@media (max-width: 719px) {
+	.app-course {
+		gap: var(--space-8);
+	}
+}
+#lessons {
+	scroll-margin-top: 80px;
+}
+
+.app-lesson-body {
+	min-width: 0;
+}
+
+/* grey shapes while a screen loads */
+.app-loading {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	padding: var(--space-2) 0;
+}
+
+/* search under the top bar on laptops */
+.app-search-layer {
+	position: fixed;
+	inset: 0;
+	z-index: 800;
+	display: flex;
+	justify-content: center;
+	padding: 72px var(--space-4) var(--space-4);
+	background: var(--scrim);
+}
+.app-search-box {
+	width: 100%;
+	max-width: 640px;
+}
+.app-search-page.ot-search--dropdown {
+	max-width: none;
+	max-height: none;
+}
+
+.app-join {
+	scroll-margin-top: 72px;
+}
+
+/* ---- student pages added in build 3 ---- */
+
+/* space between a page's sections */
+.app-gap {
+	margin-top: var(--space-10);
+}
+.app-gap-bottom {
+	margin-bottom: var(--space-6);
+}
+@media (max-width: 719px) {
+	.app-gap {
+		margin-top: var(--space-8);
+	}
+}
+/* a column of cards or rows */
+.app-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+}
+/* a certificate, then the check beside or under it */
+.app-cert {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+	gap: var(--space-6);
+	align-items: start;
+}
+@media (max-width: 959px) {
+	.app-cert {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+/* a quiz, assignment or coding exercise on its own page */
+.app-activity {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	max-width: 880px;
+	margin: 0 auto;
+}
+.app-activity > .ot-back {
+	align-self: flex-start;
+}
+
+/* ---- Teach ---- */
+
+.teach-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+}
+.teach-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+}
+/* two columns on laptops, one on phones and tablets */
+.teach-two {
+	display: grid;
+	grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+	gap: var(--space-6);
+	align-items: start;
+	margin-top: var(--space-6);
+}
+.teach-stack > .teach-two,
+.teach-stack + .teach-two {
+	margin-top: 0;
+}
+.teach-col {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6);
+	min-width: 0;
+}
+@media (max-width: 959px) {
+	.teach-two {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+/* two short fields side by side, even in a dialog */
+.teach-pair {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+	gap: var(--space-4);
+}
+.teach-panel {
+	padding: var(--space-5);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	background: var(--surface-1);
+	min-width: 0;
+}
+.teach-note {
+	margin: 0;
+	font-size: 15px;
+	line-height: 22px;
+	color: var(--ink-2);
+}
+
+/* Today's blocks */
+.teach-block__title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	margin: 0 0 var(--space-3);
+	font-family: var(--font-display);
+	font-size: 21px;
+	line-height: 26px;
+	font-weight: 600;
+	color: var(--ink-strong);
+}
+.teach-block__title a {
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--gold-text);
+	text-decoration: none;
+}
+.teach-block__title a:hover {
+	text-decoration: underline;
+}
+.teach-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 6px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	background: var(--surface-1);
+}
+.teach-block__empty {
+	margin: 0;
+	padding: var(--space-4);
+	border: 1px dashed var(--line);
+	border-radius: var(--radius-lg);
+	color: var(--ink-2);
+	font-size: 15px;
+}
+.teach-panel .teach-block__empty {
+	padding: 0;
+	border: 0;
+}
+.teach-time {
+	min-width: 64px;
+	font-weight: 700;
+	color: var(--ink-strong);
+	font-variant-numeric: tabular-nums;
+}
+
+/* cells in staff tables */
+.teach-who,
+.teach-what {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+.teach-what {
+	gap: 8px;
+}
+.teach-what .ot-icon {
+	color: var(--ink-2);
+	flex: none;
+}
+.teach-when {
+	font-weight: 700;
+	color: var(--ink-strong);
+}
+.teach-prog {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 110px;
+}
+.teach-prog .ot-progress {
+	flex: 1;
+}
+.teach-prog span {
+	min-width: 3ch;
+	font-size: 14px;
+	color: var(--ink-2);
+	font-variant-numeric: tabular-nums;
+}
+
+/* forms */
+.teach-cover {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-3);
+}
+.teach-cover img {
+	width: 100%;
+	max-width: 420px;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--line);
+}
+.teach-cover > .ot-field {
+	align-self: stretch;
+}
+.teach-kinds,
+.teach-roles {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+}
+.teach-code textarea {
+	font-family: var(--font-mono);
+	font-size: 14px;
+	line-height: 21px;
+	tab-size: 4;
+}
+
+/* a join request's details */
+.teach-facts {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 6px 16px;
+	margin: 0;
+	font-size: 15px;
+}
+.teach-facts dt {
+	color: var(--ink-2);
+}
+.teach-facts dd {
+	margin: 0;
+	color: var(--ink-strong);
+	overflow-wrap: anywhere;
+}
+.teach-quote {
+	margin: 0;
+	padding: var(--space-3) var(--space-4);
+	border-radius: var(--radius-sm);
+	background: var(--surface-2);
+	color: var(--ink);
+}

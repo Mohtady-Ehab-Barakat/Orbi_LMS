@@ -1,0 +1,91 @@
+{#-
+  OrbiTutor's layout for every email Frappe sends: a navy band with the mark, a white card, and the
+  footer. It replaces Frappe's own templates/emails/standard.html (the custom app is searched first).
+  Frappe gives it: subject, header (a title line, rendered by email_header.html), content, footer
+  (rendered by email_footer.html), print_html, site_url.
+-#}
+{%- import "templates/emails/orbitutor_email.html" as ot with context -%}
+{%- set body = content or "" -%}
+{%- set ours = "<!--ot-body-->" in body -%}
+{%- set pre = body.split("<!--ot-pre:")[1].split("-->")[0] if "<!--ot-pre:" in body else "" -%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="x-apple-disable-message-reformatting" />
+	<meta name="color-scheme" content="light dark" />
+	<meta name="supported-color-schemes" content="light dark" />
+	<title>{{ subject or "" }}</title>
+	<style type="text/css">
+		@font-face { font-family: "Fredoka"; font-weight: 600; font-style: normal; src: url("/assets/orbitutor/fonts/Fredoka-SemiBold.woff2") format("woff2"); }
+		@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; font-style: normal; src: url("/assets/orbitutor/fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2"); }
+		@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 700; font-style: normal; src: url("/assets/orbitutor/fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2"); }
+		:root { color-scheme: light dark; supported-color-schemes: light dark; }
+		body { margin: 0 !important; padding: 0 !important; -webkit-text-size-adjust: 100%; }
+		a { text-underline-offset: 2px; }
+		/* Frappe's other emails (not rewritten for OrbiTutor) are plain paragraphs: give them the brand's type */
+		.ot-card p, .ot-card li { font-family: 'Atkinson Hyperlegible', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 25px; color: #4a5378; }
+		.ot-card a { color: #9a5b00; font-weight: 700; }
+		@media screen and (max-width: 620px) {
+			.ot-outer { padding: 0 !important; }
+			.ot-band { border-radius: 0 !important; padding: 18px 20px !important; }
+			.ot-card { border-radius: 0 !important; padding: 28px 20px 24px !important; border-left: 0 !important; border-right: 0 !important; }
+			.ot-h1 { font-size: 24px !important; line-height: 30px !important; }
+			.ot-btn, .ot-btn a { display: block !important; }
+		}
+		@media (prefers-color-scheme: dark) {
+			.ot-bg { background: #050b24 !important; }
+			.ot-card { background: #0f1a45 !important; border-color: #233070 !important; }
+			.ot-strong, .ot-h1 { color: #ffffff !important; }
+			.ot-text, .ot-card p, .ot-card li { color: #d6ddff !important; }
+			.ot-muted { color: #9ea9d9 !important; }
+			.ot-eyebrow, .ot-link { color: #ffd36b !important; }
+			.ot-fact { background: #16235c !important; }
+			.ot-quote { background: #1d2550 !important; }
+			.ot-rule { background: #233070 !important; }
+		}
+	</style>
+</head>
+<body class="ot-bg" style="margin:0;padding:0;background:#eef1f8;">
+	{%- if pre %}
+	<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">{{ pre }}&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
+	{%- endif %}
+	<table role="presentation" class="ot-bg" width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#eef1f8" style="background:#eef1f8;">
+		<tr>
+			<td class="ot-outer" align="center" valign="top" style="padding:28px 12px;">
+				<table role="presentation" width="600" border="0" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;">
+					<tr>
+						<td class="ot-band" bgcolor="#0a143e" style="padding:20px 32px;border-radius:18px 18px 0 0;background-color:#0a143e;background-image:linear-gradient(135deg,#16246b 0%,#0a143e 55%,#050b24 100%);">
+							<a href="/" target="_blank" style="text-decoration:none;">
+								<img src="{{ ot.brand.logo }}" width="36" height="36" alt="" style="display:inline-block;vertical-align:middle;width:36px;height:36px;border:0;border-radius:9px;" />
+								<span style="display:inline-block;vertical-align:middle;margin-left:10px;font-family:{{ ot.DISPLAY }};font-size:21px;line-height:36px;font-weight:600;color:#ffffff;">{{ ot.brand.name }}</span>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="ot-card" bgcolor="#ffffff" style="padding:36px 40px 28px;border:1px solid #dfe4f2;border-top:0;border-radius:0 0 18px 18px;background:#ffffff;">
+							{%- if header and not ours %}
+							{{ header }}
+							{%- endif %}
+							{{ body }}
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="padding:24px 24px 8px;">
+							{{ footer or "" }}
+						</td>
+					</tr>
+					{%- if print_html %}
+					<tr>
+						<td style="padding:0 12px;">
+							<div class="print-html">{{ print_html }}</div>
+						</td>
+					</tr>
+					{%- endif %}
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
